@@ -1,7 +1,7 @@
 import jwt_decode from "jwt-decode";
 import React, { useState } from "react";
 import { apiUri } from "../appsettings";
-import { errorToast } from "../helpers/toasts";
+import displayError from "../helpers/display-exception-error";
 
 const authenticationContext = React.createContext({
   user: {},
@@ -60,13 +60,7 @@ export const AuthenticationContextProvider = (props) => {
       localStorage.setItem("user", JSON.stringify(decodedToken));
       setUsr(decodedToken);
     } catch (ex) {
-      if (!ex.errors) {
-        errorToast("Something went wrong!");
-        return;
-      }
-      for (const item in ex.errors) {
-        errorToast(ex.errors[item].join("\n"));
-      }
+      displayError(ex);
     }
   };
 
