@@ -1,9 +1,8 @@
 import { errorToast } from "./toasts";
 
 /**
- *
- * @param {*} error - The exception error
- * @returns
+ * Displays a proper message given the exception value.
+ * @param {*} error - The exception value
  */
 const displayError = (error) => {
   if (typeof error === "string") {
