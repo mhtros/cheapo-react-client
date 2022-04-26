@@ -1,19 +1,33 @@
+import jwt_decode from "jwt-decode";
 import React, { useState } from "react";
 import { apiUri } from "../appsettings";
 import { errorToast } from "../helpers/toasts";
 
 const authenticationContext = React.createContext({
-  logged: !!localStorage.getItem("accessToken"),
-  accessToken: localStorage.getItem("accessToken"),
-  refreshToken: localStorage.getItem("refreshToken"),
+  user: {},
+  logged: false,
+  accessToken: "",
+  refreshToken: "",
   signin: (email, password) => {},
   signout: () => {},
 });
 
 export const AuthenticationContextProvider = (props) => {
-  const [isLogged, setIsLogged] = useState(false);
-  const [accessTkn, setAccessTkn] = useState("");
-  const [refreshTkn, setRefreshTkn] = useState("");
+  const [isLogged, setIsLogged] = useState(
+    !!localStorage.getItem("accessToken")
+  );
+
+  const [accessTkn, setAccessTkn] = useState(
+    localStorage.getItem("accessToken") || ""
+  );
+
+  const [refreshTkn, setRefreshTkn] = useState(
+    localStorage.getItem("refreshToken") || ""
+  );
+
+  const [usr, setUsr] = useState(
+    JSON.parse(localStorage.getItem("user")) || {}
+  );
 
   const signinHandler = async (email, password) => {
     const url = `${apiUri}/authentication/signin`;
@@ -27,12 +41,15 @@ export const AuthenticationContextProvider = (props) => {
         body: JSON.stringify({ email, password }),
       });
 
+      if (!response.ok) throw await response.json();
+
       response = await response.json();
 
-      if (!response.ok) throw response;
+      setIsLogged(true);
 
       const access = response.data.accessToken;
       const refresh = response.data.refreshToken;
+      const decodedToken = jwt_decode(access);
 
       localStorage.setItem("accessToken", access);
       setAccessTkn(access);
@@ -40,7 +57,8 @@ export const AuthenticationContextProvider = (props) => {
       localStorage.setItem("refreshToken", refresh);
       setRefreshTkn(refresh);
 
-      setIsLogged(true);
+      localStorage.setItem("user", JSON.stringify(decodedToken));
+      setUsr(decodedToken);
     } catch (ex) {
       if (!ex.errors) {
         errorToast("Something went wrong!");
@@ -68,6 +86,7 @@ export const AuthenticationContextProvider = (props) => {
         refreshToken: refreshTkn,
         signin: signinHandler,
         signout: signoutHandler,
+        user: usr,
       }}
     >
       {props.children}
