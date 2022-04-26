@@ -1,25 +1,14 @@
+import { useContext } from "react";
+import { BrowserRouter } from "react-router-dom";
 import "./App.css";
-import logo from "./logo.svg";
+import authenticationContext from "./context/authentication-context";
+import AuthorizeRoutes from "./pages/routes/AuthorizeRoutes";
+import UnauthorizeRoutes from "./pages/routes/UnauthorizeRoutes";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const logged = useContext(authenticationContext).logged;
+  const routes = logged ? <AuthorizeRoutes /> : <UnauthorizeRoutes />;
+  return <BrowserRouter>{routes}</BrowserRouter>;
 }
 
 export default App;
