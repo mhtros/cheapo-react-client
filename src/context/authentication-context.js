@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { apiUri } from "../appsettings";
+import { errorToast } from "../helpers/toasts";
 
 const authenticationContext = React.createContext({
   logged: !!localStorage.getItem("accessToken"),
@@ -28,6 +29,8 @@ export const AuthenticationContextProvider = (props) => {
 
       response = await response.json();
 
+      if (!response.ok) throw response;
+
       const access = response.data.accessToken;
       const refresh = response.data.refreshToken;
 
@@ -38,10 +41,14 @@ export const AuthenticationContextProvider = (props) => {
       setRefreshTkn(refresh);
 
       setIsLogged(true);
-
-      console.log(response);
     } catch (ex) {
-      console.log(ex);
+      if (!ex.errors) {
+        errorToast("Something went wrong!");
+        return;
+      }
+      for (const item in ex.errors) {
+        errorToast(ex.errors[item].join("\n"));
+      }
     }
   };
 
