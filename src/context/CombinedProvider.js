@@ -1,9 +1,10 @@
 import { AuthenticationContextProvider } from "./authentication-context";
+import { ThemeContextProvider } from "./theme-context";
 
 const CombinedProvider = (props) => {
   return (
     <AuthenticationContextProvider>
-      {props.children}
+      <ThemeContextProvider>{props.children}</ThemeContextProvider>
     </AuthenticationContextProvider>
   );
 };
