@@ -14,5 +14,5 @@
 
 .card--dark {
   background: var(--base-color-800);
-  border-color: var(--base-color-500);
+  border-color: var(--base-color-800);
 }

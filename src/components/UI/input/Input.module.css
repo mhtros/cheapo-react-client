@@ -32,7 +32,8 @@
   font-size: 0.75rem;
   outline: none;
   border-radius: 0.375rem;
-  border: 2px solid var(--base-color-300);
+  border-width: 2px;
+  border-style: solid;
 }
 
 .input__common:focus {
@@ -48,6 +49,7 @@
 
 .input {
   caret-color: var(--base-color-700);
+  border-color: var(--base-color-300);
   color: var(--base-color-700);
 }
 
@@ -63,6 +65,7 @@
 
 .input--dark {
   background: var(--base-color-700);
+  border-color: var(--base-color-600);
   caret-color: var(--base-color-300);
   color: var(--base-color-300);
 }
