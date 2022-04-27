@@ -4,6 +4,7 @@
   border-radius: 0.375rem;
   border-width: 1px;
   border-style: solid;
+  box-shadow: 0px 3px 11px 1px #2f2f2f;
 }
 
 .card {
@@ -13,5 +14,5 @@
 
 .card--dark {
   background: var(--base-color-800);
-  border-color: var(--base-color-400);
+  border-color: var(--base-color-500);
 }
