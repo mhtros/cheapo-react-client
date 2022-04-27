@@ -8,7 +8,7 @@ const authenticationContext = React.createContext({
   logged: false,
   accessToken: "",
   refreshToken: "",
-  signin: (email, password) => {},
+  signin: async (email, password) => {},
   signout: () => {},
 });
 
