@@ -9,6 +9,7 @@ export const successToast = (message) =>
     pauseOnHover: true,
     draggable: true,
     progress: undefined,
+    theme: JSON.parse(localStorage.getItem("dark")) || false ? "dark" : "light",
   });
 
 export const errorToast = (message) =>
@@ -20,4 +21,5 @@ export const errorToast = (message) =>
     pauseOnHover: true,
     draggable: true,
     progress: undefined,
+    theme: JSON.parse(localStorage.getItem("dark")) || false ? "dark" : "light",
   });
