@@ -13,7 +13,7 @@
   outline: none;
   cursor: pointer;
   text-decoration: underline;
-  font-size: 0.6rem;
+  font-size: 0.75rem;
   color: var(--secondary-color-500);
   margin: 0 0 0 0.25rem;
 }
