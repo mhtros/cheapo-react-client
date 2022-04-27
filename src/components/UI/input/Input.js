@@ -53,7 +53,7 @@ const Input = React.forwardRef(
           htmlFor={id}
         >
           {label}
-          {showPassword && (
+          {showPassword && !!value && (
             <button
               className={classes["label_button"]}
               onClick={showHideHandler}
