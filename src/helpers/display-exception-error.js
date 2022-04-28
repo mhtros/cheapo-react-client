@@ -11,7 +11,12 @@ const displayError = (error) => {
   }
   if (!!error.errors) {
     for (const propertyName in error.errors) {
-      errorToast(error.errors[propertyName].join("\n"));
+      const property = error.errors[propertyName];
+      if (typeof property === "object" && property.isArray()) {
+        errorToast(error.errors[propertyName].join("\n"));
+      } else if (typeof property === "string") {
+        errorToast(mappErrorMessage(property));
+      } else errorToast("Something went wrong!");
     }
     return;
   }
@@ -21,6 +26,15 @@ const displayError = (error) => {
   }
 
   errorToast("Something went wrong!");
+};
+
+const mappErrorMessage = (code) => {
+  const map = {
+    USER_ALREADY_EXISTS: "Username already exists",
+    ACCOUNT_NOT_VERIFIED: "Account not verified",
+  };
+  if (!!map[code]) return map[code];
+  else return code;
 };
 
 export default displayError;
