@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
-import Dashboard from "../Dashboard";
-import NotFound from "../NotFound";
+import Dashboard from "../dashboard/Dashboard";
+import NotFound from "../not-found/NotFound";
 
 const AuthorizeRoutes = () => (
   <Routes>
