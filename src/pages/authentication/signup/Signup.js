@@ -53,7 +53,7 @@ const Signup = () => {
 
       successToast("Account created successfully");
       successToast(
-        "You have been sent an activation code in the email " + email
+        "You have been sent an verification link in the email " + email
       );
 
       navigate("/sign-in");

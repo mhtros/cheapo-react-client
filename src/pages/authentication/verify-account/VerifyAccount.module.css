@@ -1,0 +1,46 @@
+.verify-account-form {
+  padding: 0 1rem 1rem 1rem;
+}
+
+.verify-account-form > * {
+  margin-top: 1rem;
+}
+
+.verify-account-form_h1 {
+  color: var(--base-color-700);
+}
+
+.verify-account-form_h1--dark {
+  color: #fff;
+}
+
+.verify-account-form_links {
+  font-size: 0.75rem;
+}
+
+.verify-account-form_links > * {
+  margin-top: 0.25rem;
+}
+
+.link {
+  color: var(--secondary-color-500);
+  text-decoration: none;
+  outline: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.link:focus {
+  border-radius: 0.375rem;
+  border: 2px solid var(--secondary-color-500);
+}
+
+.verify-account-form__forgot {
+  color: var(--base-color-700);
+}
+
+.verify-account-form__forgot--dark {
+  color: #fff;
+}
