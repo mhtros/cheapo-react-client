@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CenteredContainer from "../../../components/layout/centered-container/CenteredContainer";
 import Button from "../../../components/UI/button/Button";
 import Card from "../../../components/UI/card/Card";
@@ -9,6 +9,7 @@ import themeContext from "../../../context/theme-context";
 import classes from "./Signin.module.css";
 
 const Signin = () => {
+  const navigate = useNavigate();
   const authenticationCtx = useContext(authenticationContext);
   const themeCtx = useContext(themeContext);
   const darkClass = themeCtx.dark ? "--dark" : "";
@@ -23,6 +24,7 @@ const Signin = () => {
     try {
       await authenticationCtx.signin(email, password);
       setLoading(false);
+      navigate("/dashboard");
     } catch (e) {
       setLoading(false);
     }
@@ -75,7 +77,7 @@ const Signin = () => {
               </div>
               <div>
                 <Link className={classes["link"]} to="/verify-account">
-                  Verify email!
+                  Verify Account!
                 </Link>
               </div>
             </div>
