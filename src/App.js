@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import { BrowserRouter } from "react-router-dom";
-import "./App.css";
 import authenticationContext from "./context/authentication-context";
 import themeContext from "./context/theme-context";
 import AuthorizeRoutes from "./pages/routes/AuthorizeRoutes";
