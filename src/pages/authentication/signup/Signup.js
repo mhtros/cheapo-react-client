@@ -114,6 +114,9 @@ const Signup = () => {
             id="image"
             type="file"
             label="Upload an image"
+            otherProperties={{
+              accept: "image/jpeg",
+            }}
             onChange={fileChangeHandler}
           />
           <Button
