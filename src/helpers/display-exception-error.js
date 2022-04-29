@@ -5,7 +5,6 @@ import { errorToast } from "./toasts";
  * @param {*} error - The exception value
  */
 const displayError = (error) => {
-  debugger;
   if (typeof error === "string") {
     errorToast(error);
     return;
