@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { BrowserRouter } from "react-router-dom";
+import UnauthorizePageTemplate from "./components/layout/unauthorize-page-template/UnauthorizePageTemplate";
 import authenticationContext from "./context/authentication-context";
 import themeContext from "./context/theme-context";
 import AuthorizeRoutes from "./pages/routes/AuthorizeRoutes";
@@ -21,7 +22,13 @@ function App() {
 
   isDark ? darkTheme() : lightTheme();
 
-  const routes = logged ? <AuthorizeRoutes /> : <UnauthorizeRoutes />;
+  const routes = logged ? (
+    <AuthorizeRoutes />
+  ) : (
+    <UnauthorizePageTemplate>
+      <UnauthorizeRoutes />
+    </UnauthorizePageTemplate>
+  );
   return <BrowserRouter>{routes}</BrowserRouter>;
 }
 
