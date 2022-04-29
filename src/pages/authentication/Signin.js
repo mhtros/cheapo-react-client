@@ -7,7 +7,7 @@ import {
 import { Button, Card, Col, Input, Row, Space, Typography } from "antd";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import authenticationContext from "../../../context/authentication-context";
+import authenticationContext from "../../context/authentication-context";
 
 const { Text } = Typography;
 

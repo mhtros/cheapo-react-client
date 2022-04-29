@@ -2,9 +2,9 @@ import { UploadOutlined } from "@ant-design/icons";
 import { Button, Card, Form, Input, Typography, Upload } from "antd";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { apiUri } from "../../../appsettings";
-import displayError from "../../../helpers/display-exception-error";
-import { errorToast, successToast } from "../../../helpers/toasts";
+import { apiUri } from "../../appsettings";
+import displayError from "../../helpers/display-exception-error";
+import { errorToast, successToast } from "../../helpers/toasts";
 
 const { Text } = Typography;
 

@@ -1,9 +1,9 @@
 import { Route, Routes } from "react-router-dom";
-import ForgotPassword from "../authentication/forgot-password/ForgotPassword";
+import ForgotPassword from "../authentication/ForgotPassword";
 import ResetPassword from "../authentication/ResetPassword";
-import Signin from "../authentication/signin/Signin";
-import Signup from "../authentication/signup/Signup";
-import VerifyAccount from "../authentication/verify-account/VerifyAccount";
+import Signin from "../authentication/Signin";
+import Signup from "../authentication/Signup";
+import VerifyAccount from "../authentication/VerifyAccount";
 
 const UnauthorizeRoutes = () => (
   <Routes>
