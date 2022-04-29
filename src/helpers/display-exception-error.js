@@ -5,6 +5,7 @@ import { errorToast } from "./toasts";
  * @param {*} error - The exception value
  */
 const displayError = (error) => {
+  debugger;
   if (typeof error === "string") {
     errorToast(error);
     return;
@@ -12,7 +13,7 @@ const displayError = (error) => {
   if (!!error.errors) {
     for (const propertyName in error.errors) {
       const property = error.errors[propertyName];
-      if (typeof property === "object" && property.isArray()) {
+      if (typeof property === "object" && Array.isArray(property)) {
         errorToast(error.errors[propertyName].join("\n"));
       } else if (typeof property === "string") {
         errorToast(mappErrorMessage(property));
