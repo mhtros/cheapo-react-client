@@ -15,21 +15,10 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-.body {
   background: linear-gradient(
     110deg,
     var(--secondary-color-200) 60%,
     var(--secondary-color-300) 60%
-  );
-}
-
-.body--dark {
-  background: linear-gradient(
-    110deg,
-    var(--base-color-600) 60%,
-    var(--base-color-700) 60%
   );
 }
 
