@@ -1,5 +1,5 @@
 import { Space, Typography } from "antd";
-import CenteredContainer from "../../../components/layout/centered-container/CenteredContainer";
+import CenteredContainer from "./centered-container/CenteredContainer";
 
 const { Text, Title } = Typography;
 
