@@ -8,7 +8,7 @@ const UnauthorizePageTemplate = ({ children }) => (
     <div>
       <Space
         direction="vertical"
-        style={{ textAlign: "center", marginBottom: "2rem" }}
+        style={{ textAlign: "center", marginBottom: "2rem", width: "100%" }}
       >
         <Title style={{ margin: 0 }}>CHEAPO</Title>
         <Text>A simple way to keep track your monthly expenses.</Text>
