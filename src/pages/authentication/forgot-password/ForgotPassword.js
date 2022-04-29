@@ -44,7 +44,7 @@ const ForgotPassword = () => {
       title={
         <Text>
           Forgot your password
-          <Tooltip title="Sends a request code email">
+          <Tooltip title="Sends a reset code to your email.">
             {" "}
             <InfoCircleOutlined style={{ color: "#666" }} />
           </Tooltip>
