@@ -1,19 +1,15 @@
-import { useContext, useState } from "react";
+import { MailOutlined } from "@ant-design/icons";
+import { Button, Card, Input, Space, Typography } from "antd";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { apiUri } from "../../../appsettings";
-import CenteredContainer from "../../../components/layout/centered-container/CenteredContainer";
-import Button from "../../../components/UI/button/Button";
-import Card from "../../../components/UI/card/Card";
-import Input from "../../../components/UI/input/Input";
-import themeContext from "../../../context/theme-context";
 import displayError from "../../../helpers/display-exception-error";
 import { successToast } from "../../../helpers/toasts";
-import classes from "./VerifyAccount.module.css";
+
+const { Text } = Typography;
 
 const VerifyAccount = () => {
   const navigate = useNavigate();
-  const themeCtx = useContext(themeContext);
-  const darkClass = themeCtx.dark ? "--dark" : "";
 
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
@@ -34,9 +30,7 @@ const VerifyAccount = () => {
 
       if (!response.ok) throw await response.json();
 
-      successToast(
-        "You have been sent an verification link in the email " + email
-      );
+      successToast("Verification link was send in: " + email);
 
       navigate("/sign-in");
     } catch (ex) {
@@ -46,39 +40,35 @@ const VerifyAccount = () => {
   };
 
   return (
-    <CenteredContainer>
-      <Card>
-        <form className={classes["verify-account-form"]}>
-          <h1 className={classes[`verify-account-form_h1${darkClass}`]}>
-            Verify your account
-          </h1>
+    <Card
+      title="Verify your Account"
+      style={{ minWidth: "22rem", textAlign: "center" }}
+    >
+      <Space direction="vertical" style={{ width: "100%" }}>
+        <Input.Group compact>
           <Input
-            id="email"
-            type="text"
-            label="Email"
-            placeholder="Enter an email..."
+            style={{ width: "70%", textAlign: "left" }}
+            prefix={<MailOutlined />}
+            placeholder="Enter email..."
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <Button
-            style={{ marginTop: "1rem" }}
-            type="submit"
-            loadingText="Loading"
-            text="Send verification email"
+            style={{ width: "30%" }}
             loading={loading}
+            type="primary"
             onClick={verifyAccountHandler}
-          />
-          <div className={classes["verify-account-form_links"]}>
-            <div className={classes[`verify-account-form__forgot${darkClass}`]}>
-              Back to{" "}
-              <Link className={classes["link"]} to="/sign-in">
-                Sign in
-              </Link>
-            </div>
-          </div>
-        </form>
-      </Card>
-    </CenteredContainer>
+          >
+            Send
+          </Button>
+        </Input.Group>
+
+        <div style={{ textAlign: "left", fontSize: "0.7rem" }}>
+          <Text>Back to</Text>
+          <Link to="/sign-in"> Sign in.</Link>
+        </div>
+      </Space>
+    </Card>
   );
 };
 
