@@ -10,6 +10,7 @@ const authenticationContext = React.createContext({
   refreshToken: "",
   signin: async (email, password) => {},
   signout: () => {},
+  setImage: (image) => {},
 });
 
 export const AuthenticationContextProvider = (props) => {
@@ -64,6 +65,11 @@ export const AuthenticationContextProvider = (props) => {
     }
   };
 
+  const setImageHandler = (image) => {
+    setUsr({ ...usr, image: image });
+    localStorage.setItem("user", JSON.stringify(usr));
+  };
+
   const signoutHandler = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
@@ -83,6 +89,7 @@ export const AuthenticationContextProvider = (props) => {
         signin: signinHandler,
         signout: signoutHandler,
         user: usr,
+        setImage: setImageHandler,
       }}
     >
       {props.children}
