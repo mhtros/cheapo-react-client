@@ -1,5 +1,6 @@
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Card, Form, Input, Typography, Upload } from "antd";
+import ImgCrop from "antd-img-crop";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { apiUri } from "../../appsettings";
@@ -11,7 +12,7 @@ const { Text } = Typography;
 const Signup = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [image, setImage] = useState("");
+  const [fileList, setFileList] = useState([]);
 
   const signupHandler = async (values) => {
     if (values.password !== values.repeatPassword) {
@@ -33,7 +34,7 @@ const Signup = () => {
           password: values.password,
           username: values.username,
           ConfirmPassword: values.repeatPassword,
-          image: image === "" ? null : image,
+          image: fileList?.length > 0 ? fileList[0]?.url : null,
         }),
       });
 
@@ -49,19 +50,20 @@ const Signup = () => {
     }
   };
 
-  const CheckIfJpeg = (file) => {
+  const changeImageHandler = (file) => {
     const isJpeg = file.type === "image/jpeg";
-    if (!isJpeg) errorToast(`${file.name} is not a jpeg file`);
-    return isJpeg || Upload.LIST_IGNORE;
-  };
+    if (!isJpeg) {
+      errorToast(`${file.name} is not a jpeg file`);
+      return;
+    }
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setFileList([{ url: reader.result }]);
+    };
 
-  const changeImageHandler = ({ file, onSuccess }) => {
-    setTimeout(() => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = (evt) => setImage(evt.target.result);
-      onSuccess("ok");
-    }, 0);
+    // then upload `file` from the argument manually
+    return false;
   };
 
   return (
@@ -102,16 +104,24 @@ const Signup = () => {
         </Form.Item>
 
         <Form.Item label="Upload an image">
-          <Upload
-            onRemove={() => setImage("")}
-            beforeUpload={CheckIfJpeg}
-            customRequest={changeImageHandler}
-            maxCount={1}
-            accept="image/jpeg"
-            listType="picture"
-          >
-            <Button icon={<UploadOutlined />}>Select image</Button>
-          </Upload>
+          <ImgCrop rotate>
+            <Upload
+              fileList={fileList}
+              beforeUpload={changeImageHandler}
+              onRemove={() => setFileList([])}
+              accept="image/jpeg"
+              listType="picture"
+            >
+              <Button
+                onClick={(e) => {
+                  e.preventDefault();
+                }}
+                icon={<UploadOutlined />}
+              >
+                Select image
+              </Button>
+            </Upload>
+          </ImgCrop>
         </Form.Item>
 
         <div style={{ display: "flex", flexDirection: "row-reverse" }}>
