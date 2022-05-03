@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { BrowserRouter } from "react-router-dom";
+import { CustomBrowserRouter } from "./components/CustomBrowserRouter";
 import AuthorizePageTemplate from "./components/layout/AuthorizePageTemplate";
 import UnauthorizePageTemplate from "./components/layout/UnauthorizePageTemplate";
 import authenticationContext from "./context/authentication-context";
@@ -22,9 +22,9 @@ function App() {
   );
 
   return (
-    <BrowserRouter>
+    <CustomBrowserRouter>
       {logged ? AuthorizeTemplate : UnauthorizeTemplate}
-    </BrowserRouter>
+    </CustomBrowserRouter>
   );
 }
 
