@@ -1,6 +1,7 @@
 import { InboxOutlined } from "@ant-design/icons";
 import { Button, Card, Form, Upload } from "antd";
 import ImgCrop from "antd-img-crop";
+import axios from "axios";
 import React, { useContext, useState } from "react";
 import { apiUri } from "../../appsettings";
 import authenticationContext from "../../context/authentication-context";
@@ -24,21 +25,10 @@ const Profile = () => {
 
     try {
       const url = `${apiUri}/user/image`;
-      var response = await fetch(url, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authenticationCtx.accessToken}`,
-        },
-        body: JSON.stringify({ Image: fileList[0].url }),
-      });
-
-      if (!response.ok) throw await response.json();
-
+      await axios.put(url, { Image: fileList[0].url });
       successToast("Profile image changed successfully");
       authenticationCtx.setImage(fileList[0].url);
       setFileList([]);
-
       setLoading(false);
     } catch (ex) {
       setLoading(false);
