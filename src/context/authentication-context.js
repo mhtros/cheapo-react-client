@@ -2,15 +2,18 @@ import jwt_decode from "jwt-decode";
 import React, { useState } from "react";
 import { apiUri } from "../appsettings";
 import displayError from "../helpers/display-exception-error";
+import { messages } from "../helpers/messages";
 
 const authenticationContext = React.createContext({
   user: {},
   logged: false,
   accessToken: "",
   refreshToken: "",
+  twoFactorSignin: async (email, token, isRecoveryToken) => {},
   signin: async (email, password) => {},
   signout: () => {},
   setImage: (image) => {},
+  setTwoFactor: (value) => {},
 });
 
 export const AuthenticationContextProvider = (props) => {
@@ -43,31 +46,37 @@ export const AuthenticationContextProvider = (props) => {
       });
 
       if (!response.ok) throw await response.json();
-
       response = await response.json();
 
-      setIsLogged(true);
+      // If two factor is enabled then function is early terminated
+      if (response?.data === messages.twoFactorAuthenticationEnabled)
+        return response.data;
 
-      const access = response.data.accessToken;
-      const refresh = response.data.refreshToken;
-      const decodedToken = jwt_decode(access);
-
-      localStorage.setItem("accessToken", access);
-      setAccessTkn(access);
-
-      localStorage.setItem("refreshToken", refresh);
-      setRefreshTkn(refresh);
-
-      localStorage.setItem("user", JSON.stringify(decodedToken));
-      setUsr(decodedToken);
+      InitializeStorageAndStates(response.data);
     } catch (ex) {
       displayError(ex);
     }
   };
 
-  const setImageHandler = (image) => {
-    setUsr({ ...usr, image: image });
-    localStorage.setItem("user", JSON.stringify(usr));
+  const twoFactorSigninHandler = async (email, token, isRecoveryToken) => {
+    const url = `${apiUri}/authentication/two-factor-signin`;
+
+    try {
+      var response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, token, isRecoveryToken }),
+      });
+
+      if (!response.ok) throw await response.json();
+      response = await response.json();
+
+      InitializeStorageAndStates(response.data);
+    } catch (ex) {
+      displayError(ex);
+    }
   };
 
   const signoutHandler = () => {
@@ -78,6 +87,36 @@ export const AuthenticationContextProvider = (props) => {
     setRefreshTkn("");
     setIsLogged(false);
     setUsr({});
+    window.location.replace("/");
+  };
+
+  const setImageHandler = (image) => {
+    setUsr({ ...usr, image: image });
+    localStorage.setItem("user", JSON.stringify(usr));
+  };
+
+  const setTwoFactorHandler = (value) => {
+    setUsr({ ...usr, twoFactorEnabled: value });
+    localStorage.setItem("user", JSON.stringify(usr));
+  };
+
+  const InitializeStorageAndStates = (data) => {
+    setIsLogged(true);
+
+    const access = data.accessToken;
+    const refresh = data.refreshToken;
+    const decodedToken = jwt_decode(access);
+
+    decodedToken.twoFactorEnabled = JSON.parse(decodedToken.twoFactorEnabled);
+
+    localStorage.setItem("accessToken", access);
+    setAccessTkn(access);
+
+    localStorage.setItem("refreshToken", refresh);
+    setRefreshTkn(refresh);
+
+    localStorage.setItem("user", JSON.stringify(decodedToken));
+    setUsr(decodedToken);
   };
 
   return (
@@ -90,6 +129,8 @@ export const AuthenticationContextProvider = (props) => {
         signout: signoutHandler,
         user: usr,
         setImage: setImageHandler,
+        setTwoFactor: setTwoFactorHandler,
+        twoFactorSignin: twoFactorSigninHandler,
       }}
     >
       {props.children}
