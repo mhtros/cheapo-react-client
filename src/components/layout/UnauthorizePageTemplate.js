@@ -1,17 +1,27 @@
 import { Space, Typography } from "antd";
-import CenteredContainer from "./centered-container/CenteredContainer";
 
 const { Text, Title } = Typography;
 
+const centeredStyles = {
+  height: "100%",
+  display: "grid",
+  placeItems: "center",
+};
+
+const CenteredContainer = ({ children }) => (
+  <div style={centeredStyles}>{children}</div>
+);
+
+const labelStyle = { textAlign: "center", marginBottom: "2rem", width: "100%" };
+
 const UnauthorizePageTemplate = ({ children }) => (
   <CenteredContainer>
-    <div>
-      <Space
-        direction="vertical"
-        style={{ textAlign: "center", marginBottom: "2rem", width: "100%" }}
-      >
-        <Title style={{ margin: 0 }}>CHEAPO</Title>
-        <Text>A simple way to keep track your monthly expenses.</Text>
+    <div id="unauthorize-template">
+      <Space direction="vertical" style={labelStyle}>
+        <Title style={{ margin: 0, color: "#fff" }}>CHEAPO</Title>
+        <Text style={{ color: "#fff" }}>
+          A simple way to keep track your monthly expenses.
+        </Text>
       </Space>
       {children}
     </div>

@@ -6,20 +6,39 @@
   box-sizing: border-box;
 }
 
+/* JUST FOR TESTING */
+/* 
+    html { border: 5px dashed black; }
+    body { border: 5px dashed red; }
+    #root { border: 5px dashed greenyellow; }
+    #unauthorize-template { border: 5px dashed cyan; }
+    #authorize-template { border: 5px dashed cyan; }
+ */
+
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  width: 100%;
-  min-height: 100vh;
+  background: var(--secondary-color-500);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(
-    110deg,
-    var(--secondary-color-200) 60%,
-    var(--secondary-color-300) 60%
-  );
+}
+
+#root {
+  height: 100%;
+}
+
+#unauthorize-template {
+  min-width: 340px;
+  padding: 1rem 0.5rem;
+}
+
+#authorize-template {
+  min-width: 340px;
+  height: 100%;
+  max-width: 45%;
+  margin: auto;
 }
 
 :root {

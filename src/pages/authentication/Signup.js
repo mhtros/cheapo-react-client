@@ -7,7 +7,7 @@ import { apiUri } from "../../appsettings";
 import displayError from "../../helpers/display-exception-error";
 import { errorToast, successToast } from "../../helpers/toasts";
 
-const { Text } = Typography;
+const { Paragraph } = Typography;
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -24,11 +24,10 @@ const Signup = () => {
 
     try {
       const url = `${apiUri}/authentication/signup`;
+
       var response = await fetch(url, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: values.email,
           password: values.password,
@@ -66,16 +65,11 @@ const Signup = () => {
     return false;
   };
 
+  const title = <div style={{ textAlign: "center" }}>Create a new Account</div>;
+
   return (
-    <Card
-      title="Create a new Account"
-      style={{ minWidth: "20rem", textAlign: "center" }}
-    >
-      <Form
-        labelCol={{ span: 9 }}
-        style={{ textAlign: "left" }}
-        onFinish={signupHandler}
-      >
+    <Card title={title}>
+      <Form labelCol={{ span: 9 }} onFinish={signupHandler}>
         <Form.Item
           label="Username"
           name="username"
@@ -83,7 +77,6 @@ const Signup = () => {
         >
           <Input />
         </Form.Item>
-
         <Form.Item label="Email" name="email" rules={[{ required: true }]}>
           <Input />
         </Form.Item>
@@ -94,7 +87,6 @@ const Signup = () => {
         >
           <Input.Password />
         </Form.Item>
-
         <Form.Item
           label="Repeat Password"
           name="repeatPassword"
@@ -102,7 +94,6 @@ const Signup = () => {
         >
           <Input.Password />
         </Form.Item>
-
         <Form.Item label="Upload an image">
           <ImgCrop rotate>
             <Upload
@@ -112,33 +103,20 @@ const Signup = () => {
               accept="image/jpeg"
               listType="picture"
             >
-              <Button
-                onClick={(e) => {
-                  e.preventDefault();
-                }}
-                icon={<UploadOutlined />}
-              >
-                Select image
-              </Button>
+              <Button icon={<UploadOutlined />}>Select image</Button>
             </Upload>
           </ImgCrop>
         </Form.Item>
 
         <div style={{ display: "flex", flexDirection: "row-reverse" }}>
-          <Button
-            style={{ width: "40%" }}
-            loading={loading}
-            type="primary"
-            htmlType="submit"
-          >
+          <Button loading={loading} type="primary" htmlType="submit">
             Sign up
           </Button>
         </div>
 
-        <span style={{ fontSize: "0.7rem" }}>
-          <Text>Already have an account?</Text>
-          <Link to="/sign-in"> Sign in!</Link>
-        </span>
+        <Paragraph style={{ margin: "1rem 0 0 0" }}>
+          Already have an account? <Link to="/sign-in"> Sign in!</Link>
+        </Paragraph>
       </Form>
     </Card>
   );

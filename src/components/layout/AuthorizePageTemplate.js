@@ -3,9 +3,16 @@ import Header from "./Header";
 
 const AuthorizePageTemplate = ({ children }) => {
   return (
-    <div style={{ maxWidth: "30rem", minWidth: "20rem", margin: "0 auto" }}>
+    <div
+      id="authorize-template"
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        background: "var(--base-color-200)",
+      }}
+    >
       <Header />
-      {children}
+      <div style={{ flexGrow: 1 }}>{children}</div>
       <Footer />
     </div>
   );

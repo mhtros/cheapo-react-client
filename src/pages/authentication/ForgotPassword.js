@@ -1,30 +1,27 @@
-import { InfoCircleOutlined, MailOutlined } from "@ant-design/icons";
-import { Button, Card, Input, Space, Tooltip, Typography } from "antd";
+import { MailOutlined } from "@ant-design/icons";
+import { Button, Card, Form, Input, Typography } from "antd";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { apiUri } from "../../appsettings";
 import displayError from "../../helpers/display-exception-error";
 import { successToast } from "../../helpers/toasts";
 
-const { Text } = Typography;
+const { Paragraph } = Typography;
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const forgotPasswordHandler = async (e) => {
-    e.preventDefault();
+  const forgotPasswordHandler = async (values) => {
+    const email = values.email;
     setLoading(true);
 
     try {
       const url = `${apiUri}/authentication/forgot-password`;
       var response = await fetch(url, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
 
@@ -39,47 +36,38 @@ const ForgotPassword = () => {
     }
   };
 
-  return (
-    <Card
-      title={
-        <Text>
-          Forgot your password
-          <Tooltip title="Sends a reset code to your email.">
-            {" "}
-            <InfoCircleOutlined style={{ color: "#666" }} />
-          </Tooltip>
-        </Text>
-      }
-      style={{ minWidth: "22rem", textAlign: "center" }}
-    >
-      <Space direction="vertical" style={{ width: "100%" }}>
-        <Input.Group compact>
-          <Input
-            style={{ width: "70%", textAlign: "left" }}
-            prefix={<MailOutlined />}
-            placeholder="Enter email..."
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <Button
-            style={{ width: "30%" }}
-            loading={loading}
-            type="primary"
-            onClick={forgotPasswordHandler}
-          >
-            Send
-          </Button>
-        </Input.Group>
+  const title = (
+    <Paragraph style={{ textAlign: "center" }}>
+      <span>Forgot your password </span>
+    </Paragraph>
+  );
 
-        <div style={{ textAlign: "left", fontSize: "0.7rem" }}>
-          <div>
-            <Text>Already have a reset code?</Text>
-            <Link to="/reset-password"> Reset.</Link>
-          </div>
-          <Text>Back to</Text>
-          <Link to="/sign-in"> Sign in.</Link>
+  return (
+    <Card title={title}>
+      <Paragraph style={{ textAlign: "center", marginBottom: "2rem" }}>
+        If you've lost your password or wish to reset it <br />
+        please enter your email to send you a reset code.
+      </Paragraph>
+      <Form onFinish={forgotPasswordHandler} autoComplete="off">
+        <Form.Item name="email">
+          <Input prefix={<MailOutlined />} placeholder="Email" />
+        </Form.Item>
+        <Button
+          style={{ width: "100%" }}
+          loading={loading}
+          type="primary"
+          htmlType="submit"
+        >
+          Request code
+        </Button>
+      </Form>
+      <Paragraph style={{ margin: "1rem 0 0 0" }}>
+        <div>
+          <span>Already have a reset code? </span>
+          <Link to="/reset-password"> Reset.</Link>
         </div>
-      </Space>
+        Back to <Link to="/sign-in"> Sign in.</Link>
+      </Paragraph>
     </Card>
   );
 };

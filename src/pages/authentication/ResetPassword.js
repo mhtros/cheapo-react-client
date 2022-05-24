@@ -5,7 +5,7 @@ import { apiUri } from "../../appsettings";
 import displayError from "../../helpers/display-exception-error";
 import { successToast } from "../../helpers/toasts";
 
-const { Text } = Typography;
+const { Paragraph } = Typography;
 
 const RestPassword = () => {
   const navigate = useNavigate();
@@ -18,9 +18,7 @@ const RestPassword = () => {
       const url = `${apiUri}/authentication/reset-password`;
       var response = await fetch(url, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: values.email,
           password: values.password,
@@ -39,20 +37,18 @@ const RestPassword = () => {
     }
   };
 
+  const title = (
+    <Paragraph style={{ textAlign: "center" }}>
+      <span>Reset your Password</span>
+    </Paragraph>
+  );
+
   return (
-    <Card
-      title="Reset your Password"
-      style={{ minWidth: "20rem", textAlign: "center" }}
-    >
-      <Form
-        labelCol={{ span: 9 }}
-        style={{ textAlign: "left" }}
-        onFinish={resetPasswordHandler}
-      >
+    <Card title={title}>
+      <Form labelCol={{ span: 9 }} onFinish={resetPasswordHandler}>
         <Form.Item label="Email" name="email" rules={[{ required: true }]}>
           <Input />
         </Form.Item>
-
         <Form.Item
           label="Password"
           name="password"
@@ -60,7 +56,6 @@ const RestPassword = () => {
         >
           <Input.Password />
         </Form.Item>
-
         <Form.Item
           label="Repeat Password"
           name="repeatPassword"
@@ -68,30 +63,21 @@ const RestPassword = () => {
         >
           <Input.Password />
         </Form.Item>
-
         <Form.Item label="Reset code" name="code" rules={[{ required: true }]}>
           <Input />
         </Form.Item>
-
         <div style={{ display: "flex", flexDirection: "row-reverse" }}>
-          <Button
-            style={{ width: "40%" }}
-            loading={loading}
-            type="primary"
-            htmlType="submit"
-          >
+          <Button loading={loading} type="primary" htmlType="submit">
             Reset password
           </Button>
         </div>
-
-        <div style={{ fontSize: "0.7rem" }}>
+        <Paragraph style={{ margin: "1rem 0 0 0" }}>
           <div>
-            <Text>Don't have a rest code?</Text>
+            <span>Don't have a rest code? </span>
             <Link to="/forgot-password"> Request one.</Link>
           </div>
-          <Text>Back to</Text>
-          <Link to="/sign-in"> Sign in.</Link>
-        </div>
+          Back to <Link to="/sign-in"> Sign in.</Link>
+        </Paragraph>
       </Form>
     </Card>
   );
