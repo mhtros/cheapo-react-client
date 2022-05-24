@@ -48,11 +48,12 @@ export const AuthenticationContextProvider = (props) => {
       if (!response.ok) throw await response.json();
       response = await response.json();
 
-      // If two factor is enabled then function is early terminated
       if (response?.data === messages.twoFactorAuthenticationEnabled)
-        return response.data;
+        return false;
 
       InitializeStorageAndStates(response.data);
+
+      return true;
     } catch (ex) {
       displayError(ex);
     }
