@@ -2,7 +2,7 @@ import jwt_decode from "jwt-decode";
 import React, { useState } from "react";
 import { apiUri } from "../appsettings";
 import displayError from "../helpers/display-exception-error";
-import { messages } from "../helpers/messages";
+import { messages } from "../maps/error-messages";
 
 const authenticationContext = React.createContext({
   user: {},
