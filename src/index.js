@@ -13,12 +13,10 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 addRefreshTokenInterceptor();
 
 root.render(
-  <React.StrictMode>
-    <CombinedProvider>
-      <ToastContainer />
-      <App />
-    </CombinedProvider>
-  </React.StrictMode>
+  <CombinedProvider>
+    <ToastContainer />
+    <App />
+  </CombinedProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
