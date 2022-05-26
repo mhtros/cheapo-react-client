@@ -2,7 +2,8 @@ import jwt_decode from "jwt-decode";
 import React, { useState } from "react";
 import { apiUri } from "../appsettings";
 import displayError from "../helpers/display-exception-error";
-import { messages } from "../maps/error-messages";
+import { history } from "../helpers/history";
+import { messages } from "../maps/messages";
 
 const authenticationContext = React.createContext({
   user: {},
@@ -10,6 +11,7 @@ const authenticationContext = React.createContext({
   accessToken: "",
   refreshToken: "",
   twoFactorSignin: async (email, token, isRecoveryToken) => {},
+  InitializeStorageAndStates: async (data) => {},
   signin: async (email, password) => {},
   signout: () => {},
   setImage: (image) => {},
@@ -51,7 +53,7 @@ export const AuthenticationContextProvider = (props) => {
       if (response?.data === messages.twoFactorAuthenticationEnabled)
         return false;
 
-      InitializeStorageAndStates(response.data);
+      InitializeStorageAndStatesHandler(response.data);
 
       return true;
     } catch (ex) {
@@ -74,7 +76,7 @@ export const AuthenticationContextProvider = (props) => {
       if (!response.ok) throw await response.json();
       response = await response.json();
 
-      InitializeStorageAndStates(response.data);
+      InitializeStorageAndStatesHandler(response.data);
     } catch (ex) {
       displayError(ex);
     }
@@ -88,7 +90,7 @@ export const AuthenticationContextProvider = (props) => {
     setRefreshTkn("");
     setIsLogged(false);
     setUsr({});
-    window.location.replace("/");
+    history.replace("/");
   };
 
   const setImageHandler = (image) => {
@@ -101,7 +103,7 @@ export const AuthenticationContextProvider = (props) => {
     localStorage.setItem("user", JSON.stringify(usr));
   };
 
-  const InitializeStorageAndStates = (data) => {
+  const InitializeStorageAndStatesHandler = (data) => {
     setIsLogged(true);
 
     const access = data.accessToken;
@@ -132,6 +134,7 @@ export const AuthenticationContextProvider = (props) => {
         setImage: setImageHandler,
         setTwoFactor: setTwoFactorHandler,
         twoFactorSignin: twoFactorSigninHandler,
+        InitializeStorageAndStates: InitializeStorageAndStatesHandler,
       }}
     >
       {props.children}
