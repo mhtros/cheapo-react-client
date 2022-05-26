@@ -37,7 +37,7 @@ body {
 #authorize-template {
   min-width: 340px;
   height: 100%;
-  max-width: 45%;
+  max-width: 500px;
   margin: auto;
 }
 

@@ -5,11 +5,7 @@ const AuthorizePageTemplate = ({ children }) => {
   return (
     <div
       id="authorize-template"
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        background: "var(--base-color-200)",
-      }}
+      style={{ display: "flex", flexDirection: "column" }}
     >
       <Header />
       <div style={{ flexGrow: 1 }}>{children}</div>
