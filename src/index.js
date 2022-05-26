@@ -4,13 +4,10 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import App from "./App";
 import CombinedProvider from "./context/CombinedProvider";
-import { addRefreshTokenInterceptor } from "./helpers/refresh-token-interceptor";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-
-addRefreshTokenInterceptor();
 
 root.render(
   <CombinedProvider>
