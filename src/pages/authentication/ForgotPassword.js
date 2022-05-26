@@ -3,7 +3,7 @@ import { Button, Card, Form, Input, Typography } from "antd";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { apiUri } from "../../appsettings";
-import displayError from "../../helpers/display-exception-error";
+import displayError from "../../helpers/exception-error";
 import { successToast } from "../../helpers/toasts";
 
 const { Paragraph } = Typography;

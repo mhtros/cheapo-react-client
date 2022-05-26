@@ -9,7 +9,8 @@ const displayError = (error) => {
     errorToast(error);
     return;
   }
-  if (!!error.errors) {
+
+  if (error.errors) {
     for (const propertyName in error.errors) {
       const property = error.errors[propertyName];
       if (typeof property === "object" && Array.isArray(property)) {
@@ -20,6 +21,7 @@ const displayError = (error) => {
     }
     return;
   }
+
   if (!!error.title) {
     errorToast(error.title);
     return;

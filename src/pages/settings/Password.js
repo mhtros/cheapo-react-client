@@ -2,7 +2,7 @@ import { Button, Card, Form, Input } from "antd";
 import axios from "axios";
 import React, { useState } from "react";
 import { apiUri } from "../../appsettings";
-import displayError from "../../helpers/display-exception-error";
+import displayError from "../../helpers/exception-error";
 import { errorToast, successToast } from "../../helpers/toasts";
 
 const Password = () => {

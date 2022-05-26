@@ -5,7 +5,7 @@ import axios from "axios";
 import React, { useContext, useState } from "react";
 import { apiUri } from "../../appsettings";
 import authenticationContext from "../../context/authentication-context";
-import displayError from "../../helpers/display-exception-error";
+import displayError from "../../helpers/exception-error";
 import { errorToast, successToast } from "../../helpers/toasts";
 
 const { Dragger } = Upload;

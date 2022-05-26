@@ -1,7 +1,7 @@
 import jwt_decode from "jwt-decode";
 import React, { useState } from "react";
 import { apiUri } from "../appsettings";
-import displayError from "../helpers/display-exception-error";
+import displayError from "../helpers/exception-error";
 import { history } from "../helpers/history";
 import { messages } from "../maps/messages";
 
