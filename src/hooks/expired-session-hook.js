@@ -1,28 +1,23 @@
-import { useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import authenticationContext from "../context/authentication-context";
-import { errorToast } from "../helpers/toasts";
+import { useEffect } from "react";
+import displayError from "../helpers/exception-error";
+import { useHttp } from "./http-hook";
 
 /**
  * In chase the refresh token is expired this custom hook signs out the user
  * and clears the authentication context.
  */
 const useExpiredSession = () => {
-  const authenticationCtx = useContext(authenticationContext);
-  const navigate = useNavigate();
-
-  const getQueryParams = () => {
-    return new Proxy(new URLSearchParams(window.location.search), {
-      get: (searchParams, prop) => searchParams.get(prop),
-    });
-  };
+  const { refreshTokens } = useHttp();
 
   useEffect(() => {
-    let value = getQueryParams().err;
-    if (!value && value !== "expired-session") return;
-    errorToast("Your session has expired. Please sign in!");
-    authenticationCtx.signout();
-    navigate("/");
+    const checkSession = async () => {
+      try {
+        await refreshTokens();
+      } catch (e) {
+        displayError(e);
+      }
+    };
+    checkSession();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 };

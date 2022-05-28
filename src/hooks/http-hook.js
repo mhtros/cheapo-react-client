@@ -100,5 +100,5 @@ export const useHttp = () => {
     if (!settings?.hasOwnProperty("method")) settings.method = "GET";
   };
 
-  return { httpCall };
+  return { httpCall, refreshTokens };
 };
