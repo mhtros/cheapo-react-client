@@ -99,8 +99,9 @@ export const AuthenticationContextProvider = (props) => {
   };
 
   const setTwoFactorHandler = (value) => {
-    setUsr({ ...usr, twoFactorEnabled: value });
-    localStorage.setItem("user", JSON.stringify(usr));
+    const updatedUser = { ...usr, twoFactorEnabled: value };
+    setUsr(updatedUser);
+    localStorage.setItem("user", JSON.stringify(updatedUser));
   };
 
   const InitializeStorageAndStatesHandler = (data) => {
