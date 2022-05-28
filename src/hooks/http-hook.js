@@ -14,10 +14,15 @@ export const useHttp = () => {
       initializeHttpMethod(settings);
 
       const response = await fetch(url, settings);
-      const data = await response.json();
+
+      if (response.status === 204) return;
+
+      const data = await response?.json();
 
       if (data?.errors?.includes(errorMessages.expiredToken)) {
-        await refreshToken();
+        const tokens = await refreshToken();
+        // update authorization header
+        settings.headers.Authorization = `Bearer ${tokens.accessToken}`;
         return await resendRequest(url, settings);
       }
 
@@ -27,7 +32,6 @@ export const useHttp = () => {
       }
 
       return data;
-      //
     } catch (error) {
       displayError(error);
       return Promise.reject(error);
@@ -35,9 +39,6 @@ export const useHttp = () => {
   };
 
   const resendRequest = async (url, settings) => {
-    initializeHttpHeaders(settings);
-    initializeHttpMethod(settings);
-
     const response = await fetch(url, settings);
     const data = await response.json();
 
@@ -60,8 +61,6 @@ export const useHttp = () => {
       body: JSON.stringify({ refreshToken, accessToken }),
     });
 
-    if (!response.ok) throw await response.json();
-
     var data = await response.json();
 
     const errors = [
@@ -78,6 +77,8 @@ export const useHttp = () => {
 
     // Update access and refresh tokens.
     authenticationCtx.InitializeStorageAndStates(data.data);
+
+    return data.data;
   };
 
   const initializeHttpHeaders = (settings, authorized) => {
