@@ -4,6 +4,8 @@ import authenticationContext from "../context/authentication-context";
 import displayError from "../helpers/exception-error";
 import { errorMessages } from "../maps/error-messages";
 
+const noContent = 204;
+
 export const useHttp = () => {
   const authenticationCtx = useContext(authenticationContext);
 
@@ -15,21 +17,20 @@ export const useHttp = () => {
 
       const response = await fetch(url, settings);
 
-      if (response.status === 204) return;
+      if (response.status === noContent) return;
 
       const data = await response?.json();
 
-      if (data?.errors?.includes(errorMessages.expiredToken)) {
-        const tokens = await refreshToken();
-        // update authorization header
-        settings.headers.Authorization = `Bearer ${tokens.accessToken}`;
-        return await resendRequest(url, settings);
+      if (data?.errors?.some((i) => typeof i === "string")) {
+        if (data?.errors?.includes(errorMessages.expiredToken)) {
+          const tokens = await refreshTokens();
+          // update authorization header
+          settings.headers.Authorization = `Bearer ${tokens.accessToken}`;
+          return await resendRequest(url, settings);
+        }
       }
 
-      if (data?.errors) {
-        displayError(data.errors);
-        throw data.errors;
-      }
+      if (data?.errors || !response.ok) throw data;
 
       return data;
     } catch (error) {
@@ -41,27 +42,23 @@ export const useHttp = () => {
   const resendRequest = async (url, settings) => {
     const response = await fetch(url, settings);
     const data = await response.json();
-
-    if (data?.errors) {
-      displayError(data.errors);
-      throw data.errors;
-    }
+    if (data?.errors || !response.ok) throw data;
     return data;
   };
 
-  const refreshToken = async () => {
+  const refreshTokens = async () => {
     const refreshToken = authenticationCtx.refreshToken;
     const accessToken = authenticationCtx.accessToken;
 
     const url = `${apiUri}/authentication/refresh-token`;
 
-    var response = await fetch(url, {
+    const response = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ refreshToken, accessToken }),
     });
 
-    var data = await response.json();
+    const data = await response.json();
 
     const errors = [
       errorMessages.expiredRefreshToken,
@@ -74,6 +71,8 @@ export const useHttp = () => {
       authenticationCtx.signout();
       throw Error("Your token has expired. Please signin");
     }
+
+    if (data?.errors || !response.ok) throw data;
 
     // Update access and refresh tokens.
     authenticationCtx.InitializeStorageAndStates(data.data);
