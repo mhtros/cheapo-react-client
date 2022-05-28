@@ -1,15 +1,15 @@
 import { Button, Card, Form, Input } from "antd";
-import axios from "axios";
 import React, { useState } from "react";
 import { apiUri } from "../../appsettings";
-import displayError from "../../helpers/exception-error";
 import { errorToast, successToast } from "../../helpers/toasts";
+import { useHttp } from "../../hooks/http-hook";
 
 const Password = () => {
+  const { httpCall } = useHttp();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 
-  const signupHandler = async (values) => {
+  const changePasswordHandler = async (values) => {
     if (values.newPassword !== values.repeatNewPassword) {
       errorToast("Passwords do not match");
       return;
@@ -19,37 +19,33 @@ const Password = () => {
 
     try {
       const url = `${apiUri}/authentication/change-password`;
-      await axios.put(url, {
-        currentPassword: values.currentPassword,
-        newPassword: values.newPassword,
-        ConfirmPassword: values.repeatNewPassword,
+      await httpCall(url, {
+        method: "PUT",
+        body: JSON.stringify({
+          currentPassword: values.currentPassword,
+          newPassword: values.newPassword,
+          ConfirmPassword: values.repeatNewPassword,
+        }),
       });
       successToast("Password changed successfully");
       form.resetFields();
       setLoading(false);
     } catch (ex) {
       setLoading(false);
-      displayError(ex);
     }
   };
 
+  const title = <div style={{ textAlign: "center" }}>Change Password</div>;
+
   return (
-    <Card
-      title="Change Password"
-      style={{ minWidth: "20rem", marginTop: "1rem", textAlign: "center" }}
-    >
-      <Form
-        form={form}
-        labelCol={{ span: 9 }}
-        style={{ textAlign: "left" }}
-        onFinish={signupHandler}
-      >
+    <Card title={title}>
+      <Form form={form} labelCol={{ span: 9 }} onFinish={changePasswordHandler}>
         <Form.Item
           label="Current Password"
           name="currentPassword"
           rules={[{ required: true }]}
         >
-          <Input />
+          <Input.Password />
         </Form.Item>
 
         <Form.Item
@@ -69,12 +65,7 @@ const Password = () => {
         </Form.Item>
 
         <div style={{ display: "flex", flexDirection: "row-reverse" }}>
-          <Button
-            style={{ width: "40%" }}
-            loading={loading}
-            type="primary"
-            htmlType="submit"
-          >
+          <Button loading={loading} type="primary" htmlType="submit">
             Update
           </Button>
         </div>

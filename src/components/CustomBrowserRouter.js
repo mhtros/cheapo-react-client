@@ -3,7 +3,6 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { Router } from "react-router-dom";
 
 // Can be used to manage navigation state outside of React components
-// ex : Redux, Axios interceptors, ...
 export const customHistory = createBrowserHistory();
 
 export function CustomBrowserRouter({ basename, children }) {

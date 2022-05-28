@@ -88,6 +88,7 @@ const Header = () => {
         alignItems: "center",
         gap: 20,
         padding: "0.5rem 1rem",
+        marginBottom: "1.5rem",
       }}
     >
       <Avatar

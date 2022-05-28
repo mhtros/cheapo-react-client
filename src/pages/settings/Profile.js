@@ -1,16 +1,16 @@
 import { InboxOutlined } from "@ant-design/icons";
 import { Button, Card, Form, Upload } from "antd";
 import ImgCrop from "antd-img-crop";
-import axios from "axios";
 import React, { useContext, useState } from "react";
 import { apiUri } from "../../appsettings";
 import authenticationContext from "../../context/authentication-context";
-import displayError from "../../helpers/exception-error";
 import { errorToast, successToast } from "../../helpers/toasts";
+import { useHttp } from "../../hooks/http-hook";
 
 const { Dragger } = Upload;
 
 const Profile = () => {
+  const { httpCall } = useHttp();
   const authenticationCtx = useContext(authenticationContext);
 
   const [loading, setLoading] = useState(false);
@@ -25,14 +25,16 @@ const Profile = () => {
 
     try {
       const url = `${apiUri}/user/image`;
-      await axios.put(url, { Image: fileList[0].url });
+      await httpCall(url, {
+        method: "PUT",
+        body: JSON.stringify({ Image: fileList[0].url }),
+      });
       successToast("Profile image changed successfully");
       authenticationCtx.setImage(fileList[0].url);
       setFileList([]);
       setLoading(false);
     } catch (ex) {
       setLoading(false);
-      displayError(ex);
     }
   };
 
@@ -52,16 +54,11 @@ const Profile = () => {
     return false;
   };
 
+  const title = <div style={{ textAlign: "center" }}>Update Profile Image</div>;
+
   return (
-    <Card
-      title="Update Profile Image"
-      style={{ minWidth: "20rem", marginTop: "1rem", textAlign: "center" }}
-    >
-      <Form
-        layout="vertical"
-        style={{ textAlign: "left" }}
-        onFinish={updateImageHandler}
-      >
+    <Card title={title}>
+      <Form onFinish={updateImageHandler}>
         <Form.Item>
           <ImgCrop rotate>
             <Dragger
@@ -84,12 +81,7 @@ const Profile = () => {
         </Form.Item>
 
         <div style={{ display: "flex", flexDirection: "row-reverse" }}>
-          <Button
-            style={{ width: "40%" }}
-            loading={loading}
-            type="primary"
-            htmlType="submit"
-          >
+          <Button loading={loading} type="primary" htmlType="submit">
             Update
           </Button>
         </div>
