@@ -1,4 +1,14 @@
-import { Alert, Button, Card, Col, Form, Input, Row, Typography } from "antd";
+import {
+  Alert,
+  Button,
+  Card,
+  Col,
+  Form,
+  Input,
+  Popconfirm,
+  Row,
+  Typography,
+} from "antd";
 import { QRCodeSVG } from "qrcode.react";
 import { useContext, useEffect, useState } from "react";
 import { apiUri } from "../../appsettings";
@@ -175,13 +185,16 @@ const TwoFactorAuthenitcation = () => {
           your account without the code from your 2FA token.
         </Paragraph>
 
-        <Button
-          loading={extraLoading}
-          disabled={loading}
-          onClick={resetRecoveryCodes}
+        <Popconfirm
+          title="Sure you want to reset the recovery codes?"
+          onConfirm={resetRecoveryCodes}
+          okText="Yes"
+          cancelText="No"
         >
-          Reset Recovery Codes
-        </Button>
+          <Button loading={extraLoading} disabled={loading}>
+            Reset Recovery Codes
+          </Button>
+        </Popconfirm>
       </Paragraph>
 
       {recoveryKeys && (
@@ -210,16 +223,23 @@ const TwoFactorAuthenitcation = () => {
       <Paragraph>
         Disabling 2FA automaticaly reset the authenticator app.
       </Paragraph>
-      <Button
-        type="primary"
-        size="large"
-        danger
-        loading={loading}
-        disabled={extraLoading}
-        onClick={disableTwoFactorHandler}
+
+      <Popconfirm
+        title="Sure you want to disable two-factor authentication?"
+        onConfirm={disableTwoFactorHandler}
+        okText="Yes"
+        cancelText="No"
       >
-        Disable 2FA
-      </Button>
+        <Button
+          type="primary"
+          size="large"
+          danger
+          loading={loading}
+          disabled={extraLoading}
+        >
+          Disable 2FA
+        </Button>
+      </Popconfirm>
     </>
   );
 

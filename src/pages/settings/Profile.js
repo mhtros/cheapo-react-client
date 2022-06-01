@@ -1,5 +1,5 @@
 import { InboxOutlined } from "@ant-design/icons";
-import { Button, Card, Form, Typography, Upload } from "antd";
+import { Button, Card, Form, Popconfirm, Typography, Upload } from "antd";
 import ImgCrop from "antd-img-crop";
 import React, { useContext, useState } from "react";
 import { apiUri } from "../../appsettings";
@@ -122,17 +122,24 @@ const Profile = () => {
           of the application and any further request made with it will be
           rejected.
         </Paragraph>
-        <Button
-          style={{ width: "100%" }}
-          size="large"
-          danger
-          onClick={revokeTokenHandler}
-          loading={extraLoading}
-          disabled={loading}
-          type="primary"
+
+        <Popconfirm
+          title="Sure you want to revoke the current token?"
+          onConfirm={revokeTokenHandler}
+          okText="Yes"
+          cancelText="No"
         >
-          Revoke token
-        </Button>
+          <Button
+            style={{ width: "100%" }}
+            size="large"
+            danger
+            loading={extraLoading}
+            disabled={loading}
+            type="primary"
+          >
+            Revoke token
+          </Button>
+        </Popconfirm>
       </Card>
     </>
   );
