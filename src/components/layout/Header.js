@@ -9,6 +9,7 @@ import {
   SettingOutlined,
   SplitCellsOutlined,
   TabletOutlined,
+  TagsOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { Avatar, Dropdown, Menu, Typography } from "antd";
@@ -54,18 +55,27 @@ const Header = () => {
           key: "3-1",
         },
         {
+          icon: <TagsOutlined />,
+          label: (
+            <Link to="settings/transaction-categories">
+              Transaction categories
+            </Link>
+          ),
+          key: "3-2",
+        },
+        {
           icon: <TabletOutlined />,
           label: (
             <Link to="settings/two-factor-authentication">
               Two Factor Authentication
             </Link>
           ),
-          key: "3-2",
+          key: "3-3",
         },
         {
           icon: <DatabaseOutlined />,
           label: <Link to="settings/personal-data">Personal Data</Link>,
-          key: "3-3",
+          key: "3-4",
         },
       ],
       key: "3",

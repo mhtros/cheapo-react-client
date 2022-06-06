@@ -65,3 +65,22 @@ body {
   --secondary-color-800: #075985;
   --secondary-color-900: #0c4a6e;
 }
+
+.pagination > * {
+  margin-top: 0.3rem;
+}
+
+.editable-cell {
+  position: relative;
+}
+
+.editable-cell-value-wrap {
+  padding: 5px 12px;
+  cursor: pointer;
+}
+
+.editable-row:hover .editable-cell-value-wrap {
+  padding: 4px 11px;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+}

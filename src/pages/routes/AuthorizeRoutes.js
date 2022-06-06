@@ -1,10 +1,10 @@
 import { Route, Routes } from "react-router-dom";
-import useExpiredSession from "../../hooks/expired-session-hook";
 import Dashboard from "../Dashboard";
 import NotFound from "../NotFound";
 import Password from "../settings/Password";
 import PersonalData from "../settings/PersonalData";
 import Profile from "../settings/Profile";
+import TransactionCategories from "../settings/TransactionCategories";
 import TwoFactorAuthentication from "../settings/TwoFactorAuthentication";
 
 const AuthorizeRoutes = () => {
@@ -14,6 +14,10 @@ const AuthorizeRoutes = () => {
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/settings/profile" element={<Profile />} />
       <Route path="/settings/password" element={<Password />} />
+      <Route
+        path="/settings/transaction-categories"
+        element={<TransactionCategories />}
+      />
       <Route
         path="/settings/two-factor-authentication"
         element={<TwoFactorAuthentication />}
