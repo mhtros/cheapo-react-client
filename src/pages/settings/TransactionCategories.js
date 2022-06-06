@@ -10,10 +10,7 @@ import {
 } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import { apiUri } from "../../appsettings";
-import {
-  EditableCell,
-  EditableRow,
-} from "../../components/layout/EditableContext";
+import { EditableCell, EditableRow } from "../../components/UI/EditableContext";
 import { guid } from "../../helpers/guid-v4";
 import { successToast } from "../../helpers/toasts";
 import { useHttp } from "../../hooks/http-hook";
