@@ -18,6 +18,7 @@ export const useHttp = () => {
       const response = await fetch(url, settings);
 
       if (response.status === noContent) return;
+      const pagination = getPagination(response);
 
       const data = await response?.json();
 
@@ -31,6 +32,7 @@ export const useHttp = () => {
       }
 
       if (data?.errors || !response.ok) throw data;
+      if (!!pagination) data.pagination = pagination;
 
       return data;
     } catch (error) {
@@ -39,10 +41,24 @@ export const useHttp = () => {
     }
   };
 
+  const getPagination = (response) => {
+    const headers = [...response.headers];
+    const paginationJson = headers?.find((x) => x[0] === "pagination");
+
+    let pagination = null;
+
+    if (!!paginationJson && paginationJson.length >= 2)
+      pagination = JSON.parse(paginationJson[1]);
+
+    return pagination;
+  };
+
   const resendRequest = async (url, settings) => {
     const response = await fetch(url, settings);
+    const pagination = getPagination(response);
     const data = await response.json();
     if (data?.errors || !response.ok) throw data;
+    if (!!pagination) data.pagination = pagination;
     return data;
   };
 
