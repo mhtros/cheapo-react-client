@@ -31,7 +31,7 @@ import { apiUri } from "../appsettings";
 import { errorToast, successToast } from "../helpers/toasts";
 import { useHttp } from "../hooks/http-hook";
 
-const { Paragraph, Title } = Typography;
+const { Title } = Typography;
 const { Panel } = Collapse;
 const { Option } = Select;
 
@@ -299,12 +299,9 @@ const Dashboard = () => {
   };
 
   const editExpense = async (expense) => {
-    if (typeof expense.category === "string")
-      expense.category = JSON.parse(expense.category);
-
     const mappedExpense = {
       amount: expense.amount,
-      category: expense.category,
+      category: JSON.stringify(expense.category),
       comments: expense.comments,
       createdAt: expense.createdAt,
       description: expense.description,
@@ -326,12 +323,9 @@ const Dashboard = () => {
   };
 
   const editIncome = async (income) => {
-    if (typeof income.category === "string")
-      income.category = JSON.parse(income.category);
-
     const mappedIncome = {
       amount: income.amount,
-      category: income.category,
+      category: JSON.stringify(income.category),
       comments: income.comments,
       createdAt: income.createdAt,
       description: income.description,
@@ -531,6 +525,82 @@ const Dashboard = () => {
     return newArray;
   };
 
+  const onExpensesFormValueChange = () => {
+    var description = expensesForm.getFieldValue("description");
+    var category = expensesForm.getFieldValue("category");
+    var amount = expensesForm.getFieldValue("amount");
+    var comments = expensesForm.getFieldValue("comments");
+    var createdAt = expensesForm.getFieldValue("createdAt");
+    var userId = expensesForm.getFieldValue("userId");
+    var id = expensesForm.getFieldValue("id");
+    var isExpense = expensesForm.getFieldValue("isExpense");
+
+    if (description === "") description = undefined;
+    if (category === "") category = undefined;
+    if (amount === "") amount = undefined;
+    if (comments === "") comments = undefined;
+    if (createdAt === "") createdAt = undefined;
+    if (userId === "") userId = undefined;
+    if (id === "") id = undefined;
+    if (isExpense === "") isExpense = undefined;
+
+    const currentValue_JSON = JSON.stringify({
+      amount,
+      category,
+      comments,
+      createdAt,
+      description,
+      id,
+      isExpense,
+      userId,
+    });
+
+    const formData_JSON = JSON.stringify(expensesFormData);
+    if (currentValue_JSON !== formData_JSON) {
+      setExpensesDisabled(false);
+    } else {
+      setExpensesDisabled(true);
+    }
+  };
+
+  const onIncomesFormValueChange = () => {
+    var description = incomesForm.getFieldValue("description");
+    var category = incomesForm.getFieldValue("category");
+    var amount = incomesForm.getFieldValue("amount");
+    var comments = incomesForm.getFieldValue("comments");
+    var createdAt = incomesForm.getFieldValue("createdAt");
+    var userId = incomesForm.getFieldValue("userId");
+    var id = incomesForm.getFieldValue("id");
+    var isExpense = incomesForm.getFieldValue("isExpense");
+
+    if (description === "") description = undefined;
+    if (category === "") category = undefined;
+    if (amount === "") amount = undefined;
+    if (comments === "") comments = undefined;
+    if (createdAt === "") createdAt = undefined;
+    if (userId === "") userId = undefined;
+    if (id === "") id = undefined;
+    if (isExpense === "") isExpense = undefined;
+
+    const currentValue_JSON = JSON.stringify({
+      amount,
+      category,
+      comments,
+      createdAt,
+      description,
+      id,
+      isExpense,
+      userId,
+    });
+
+    const formData_JSON = JSON.stringify(incomesFormData);
+    if (currentValue_JSON !== formData_JSON) {
+      setIncomesDisabled(false);
+    } else {
+      setIncomesDisabled(true);
+    }
+  };
+
   const expenseCancel = () => {
     expensesForm.resetFields();
     setExpensesFormData({});
@@ -615,43 +685,7 @@ const Dashboard = () => {
               form={incomesForm}
               layout="vertical"
               autoComplete="off"
-              onValuesChange={() => {
-                var description = incomesForm.getFieldValue("description");
-                var category = incomesForm.getFieldValue("category");
-                var amount = incomesForm.getFieldValue("amount");
-                var comments = incomesForm.getFieldValue("comments");
-                var createdAt = incomesForm.getFieldValue("createdAt");
-                var userId = incomesForm.getFieldValue("userId");
-                var id = incomesForm.getFieldValue("id");
-                var isExpense = incomesForm.getFieldValue("isExpense");
-
-                if (description === "") description = undefined;
-                if (category === "") category = undefined;
-                if (amount === "") amount = undefined;
-                if (comments === "") comments = undefined;
-                if (createdAt === "") createdAt = undefined;
-                if (userId === "") userId = undefined;
-                if (id === "") id = undefined;
-                if (isExpense === "") isExpense = undefined;
-
-                const currentValue_JSON = JSON.stringify({
-                  amount,
-                  category,
-                  comments,
-                  createdAt,
-                  description,
-                  id,
-                  isExpense,
-                  userId,
-                });
-
-                const formData_JSON = JSON.stringify(incomesFormData);
-                if (currentValue_JSON !== formData_JSON) {
-                  setIncomesDisabled(false);
-                } else {
-                  setIncomesDisabled(true);
-                }
-              }}
+              onValuesChange={onIncomesFormValueChange}
             >
               {/* hidden properties */}
               <Form.Item name="id" style={{ display: "none" }}>
@@ -680,7 +714,6 @@ const Dashboard = () => {
                 label="Category"
                 name="category"
                 rules={[{ required: true }]}
-                initialValue={JSON.stringify(categories[0])}
               >
                 <Select
                   showSearch
@@ -759,43 +792,7 @@ const Dashboard = () => {
               form={expensesForm}
               layout="vertical"
               autoComplete="off"
-              onValuesChange={() => {
-                var description = expensesForm.getFieldValue("description");
-                var category = expensesForm.getFieldValue("category");
-                var amount = expensesForm.getFieldValue("amount");
-                var comments = expensesForm.getFieldValue("comments");
-                var createdAt = expensesForm.getFieldValue("createdAt");
-                var userId = expensesForm.getFieldValue("userId");
-                var id = expensesForm.getFieldValue("id");
-                var isExpense = expensesForm.getFieldValue("isExpense");
-
-                if (description === "") description = undefined;
-                if (category === "") category = undefined;
-                if (amount === "") amount = undefined;
-                if (comments === "") comments = undefined;
-                if (createdAt === "") createdAt = undefined;
-                if (userId === "") userId = undefined;
-                if (id === "") id = undefined;
-                if (isExpense === "") isExpense = undefined;
-
-                const currentValue_JSON = JSON.stringify({
-                  amount,
-                  category,
-                  comments,
-                  createdAt,
-                  description,
-                  id,
-                  isExpense,
-                  userId,
-                });
-
-                const formData_JSON = JSON.stringify(expensesFormData);
-                if (currentValue_JSON !== formData_JSON) {
-                  setExpensesDisabled(false);
-                } else {
-                  setExpensesDisabled(true);
-                }
-              }}
+              onValuesChange={onExpensesFormValueChange}
             >
               {/* hidden properties */}
               <Form.Item name="id" style={{ display: "none" }}>
