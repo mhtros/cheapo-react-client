@@ -8,7 +8,7 @@ import {
   Table,
   Tooltip,
 } from "antd";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { apiUri } from "../../appsettings";
 import { EditableCell, EditableRow } from "../../components/UI/EditableContext";
 import { guid } from "../../helpers/guid-v4";
@@ -77,8 +77,9 @@ const TransactionCategories = () => {
     else removeFromList(category);
   };
 
-  const removeFromList = (category) =>
-    setCategories(categories.filter((x) => x.name !== category.name));
+  const removeFromList = (category) => {
+    setCategories(categories.filter((x) => x.key !== category.key));
+  };
 
   const saveCategory = async (category) => {
     try {
@@ -187,15 +188,17 @@ const TransactionCategories = () => {
         size="large"
         placeholder="search..."
       />
-      <Tooltip placement="right" title="Add category">
-        <Button
-          type="primary"
-          onClick={addCategory}
-          style={{ marginBottom: "1rem" }}
-        >
-          <PlusOutlined />
-        </Button>
-      </Tooltip>
+      <div style={{ display: "flex", flexDirection: "row-reverse" }}>
+        <Tooltip placement="right" title="Add category">
+          <Button
+            type="primary"
+            onClick={addCategory}
+            style={{ marginBottom: "1rem" }}
+          >
+            <PlusOutlined />
+          </Button>
+        </Tooltip>
+      </div>
       <Table
         components={components}
         rowClassName={() => "editable-row"}
