@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import useExpiredSession from "../../hooks/expired-session-hook";
+import Compare from "../Compare";
 import Dashboard from "../Dashboard";
 import NotFound from "../NotFound";
 import Password from "../settings/Password";
@@ -13,6 +14,7 @@ const AuthorizeRoutes = () => {
   return (
     <Routes>
       <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/compare" element={<Compare />} />
       <Route path="/settings/profile" element={<Profile />} />
       <Route path="/settings/password" element={<Password />} />
       <Route

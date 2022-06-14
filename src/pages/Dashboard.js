@@ -24,7 +24,6 @@ import {
   Tooltip,
   Typography,
 } from "antd";
-import TextArea from "antd/lib/input/TextArea";
 import moment from "moment";
 import { useEffect, useRef, useState } from "react";
 import { apiUri } from "../appsettings";
@@ -34,6 +33,7 @@ import { useHttp } from "../hooks/http-hook";
 const { Title } = Typography;
 const { Panel } = Collapse;
 const { Option } = Select;
+const { TextArea } = Input;
 
 const locale = "el-GR";
 
@@ -261,6 +261,7 @@ const Dashboard = () => {
   };
 
   const getTransactions = async () => {
+    if (!date) return;
     const isoDate = date.toISOString();
     const pagination = `pageNumber=${1}&pageSize=${50}`;
     const dateRanges = `createdFrom=${isoDate}&createdTo=${isoDate}&ignoreDays=true`;
