@@ -388,6 +388,7 @@ const Dashboard = () => {
       await httpCall(url, { method: "DELETE" });
       message.success({ content: "Deleted", key: "updatable", duration: 2 });
       setExpenses((prev) => prev.filter((i) => i.id !== id));
+      await getBalance();
     } catch (e) {}
   };
 
@@ -398,6 +399,7 @@ const Dashboard = () => {
       await httpCall(url, { method: "DELETE" });
       message.success({ content: "Deleted", key: "updatable", duration: 2 });
       setIncomes((prev) => prev.filter((i) => i.id !== id));
+      await getBalance();
     } catch (e) {}
   };
 
