@@ -115,8 +115,13 @@ const TransactionCategories = () => {
     {
       title: "Name",
       dataIndex: "name",
-      sorter: (a, b) => a.name < b.name,
-      sortDirections: ["descend"],
+      sorter: (a, b, direction) => {
+        if (direction === "descend")
+          return a.name.toLowerCase() > b.name.toLowerCase();
+        if (direction === "ascend")
+          return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+      },
+      sortDirections: ["descend", "ascend"],
       editable: true,
     },
     {
