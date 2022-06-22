@@ -452,6 +452,7 @@ const Dashboard = () => {
       const response = await httpCall(url, {
         method: "POST",
         body: JSON.stringify({
+          transactionDate: date.toISOString(),
           description: expense.description,
           categoryId: expense.category.id,
           amount: expense.amount,
@@ -474,6 +475,7 @@ const Dashboard = () => {
       const response = await httpCall(url, {
         method: "POST",
         body: JSON.stringify({
+          transactionDate: date.toISOString(),
           description: income.description,
           categoryId: income.category.id,
           amount: income.amount,
@@ -643,7 +645,6 @@ const Dashboard = () => {
           size="large"
           superNextIcon
           onChange={onDateChange}
-          picker="month"
         />
         <Tooltip placement="top" title="Next">
           <Button size="large" onClick={nextMonth} disabled={!date}>

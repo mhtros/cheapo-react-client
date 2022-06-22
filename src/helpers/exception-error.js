@@ -27,6 +27,11 @@ const displayError = (error) => {
     return;
   }
 
+  if (error?.message) {
+    errorToast(error.message);
+    return;
+  }
+
   errorToast("Something went wrong!");
 };
 
