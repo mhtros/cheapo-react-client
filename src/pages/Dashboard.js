@@ -27,7 +27,7 @@ import {
 import moment from "moment";
 import { useEffect, useRef, useState } from "react";
 import { apiUri } from "../appsettings";
-import { errorToast, successToast } from "../helpers/toasts";
+import { errorToast } from "../helpers/toasts";
 import { useHttp } from "../hooks/http-hook";
 
 const { Title } = Typography;
@@ -417,7 +417,7 @@ const Dashboard = () => {
         }),
       });
       setExpensesLoading(false);
-      successToast("Updated");
+      message.success({ content: "Updated", duration: 2 });
       updateExpensesStates(response.data);
     } catch (e) {
       setExpensesLoading(false);
@@ -438,7 +438,7 @@ const Dashboard = () => {
         }),
       });
       setIncomesLoading(false);
-      successToast("Updated");
+      message.success({ content: "Updated", duration: 2 });
       updateIncomesStates(response.data);
     } catch (e) {
       setIncomesLoading(false);
@@ -461,7 +461,7 @@ const Dashboard = () => {
         }),
       });
       setExpensesLoading(false);
-      successToast("Inserted");
+      message.success({ content: "Inserted", duration: 2 });
       updateExpensesStates(response.data);
     } catch (e) {
       setExpensesLoading(false);
@@ -484,7 +484,7 @@ const Dashboard = () => {
         }),
       });
       setIncomesLoading(false);
-      successToast("Inserted");
+      message.success({ content: "Inserted", duration: 2 });
       updateIncomesStates(response.data);
     } catch (e) {
       setIncomesLoading(false);

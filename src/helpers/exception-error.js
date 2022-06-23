@@ -39,6 +39,17 @@ const mappErrorMessage = (code) => {
   const map = {
     USER_ALREADY_EXISTS: "Username already exists",
     ACCOUNT_NOT_VERIFIED: "Account not verified",
+    EXPIRED_TOKEN: "Expired token",
+    EXPIRED_REFRESH_TOKEN: "The Refresh token is expired",
+    EMAIL_NOT_SEND: "Email was not sent",
+    INVALID_TOKEN: "Invalid token",
+    NOT_VALID_TWO_FACTOR_TOKEN: "Two factor token is not valid",
+    INVALID_QUERY_PARAMETERS: "Invalid query parameters",
+    ALREADY_EXISTS: "Already exists",
+    ENTITY_NOT_SAVED: "Entity not saved",
+    ENTITY_NOT_REMOVED: "Entity not removed",
+    ENTITY_NOT_UPDATED: "Entity not updated",
+    INCORECT_USERNAME_OR_PASSWORD: "Incorrect username or password",
   };
   if (!!map[code]) return map[code];
   else return code;

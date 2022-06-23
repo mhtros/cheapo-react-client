@@ -3,6 +3,7 @@ import {
   Button,
   Card,
   Input,
+  message,
   Pagination,
   Popconfirm,
   Table,
@@ -12,7 +13,6 @@ import { useEffect, useRef, useState } from "react";
 import { apiUri } from "../../appsettings";
 import { EditableCell, EditableRow } from "../../components/UI/EditableContext";
 import { guid } from "../../helpers/guid-v4";
-import { successToast } from "../../helpers/toasts";
 import { useHttp } from "../../hooks/http-hook";
 
 const TransactionCategories = () => {
@@ -59,7 +59,7 @@ const TransactionCategories = () => {
       setLoading(true);
       const url = `${apiUri}/transaction-categories/${category.id}`;
       await httpCall(url, { method: "DELETE" });
-      successToast("Deleted");
+      message.success({ content: "Deleted", duration: 2 });
       removeFromList(category);
       setLoading(false);
     } catch (ex) {
@@ -91,7 +91,7 @@ const TransactionCategories = () => {
         body: JSON.stringify({ name: category.name }),
       });
 
-      successToast("Ceated");
+      message.success({ content: "Ceated", duration: 2 });
       handleSave(response.data, category.key);
       setLoading(false);
     } catch (ex) {
