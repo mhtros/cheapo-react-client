@@ -10,23 +10,14 @@ import {
   Typography,
 } from "antd";
 import moment from "moment";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { apiUri } from "../appsettings";
+import currencyContext from "../context/currency-context";
 import { guid } from "../helpers/guid-v4";
 import { useHttp } from "../hooks/http-hook";
 
 const { TabPane } = Tabs;
 const { Text } = Typography;
-
-const locale = "el-GR";
-
-var formatter = new Intl.NumberFormat(locale, {
-  style: "currency",
-  currency: "EUR",
-  // These options are needed to round to whole numbers if that's what you want.
-  // minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
-  // maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
-});
 
 const periods = [
   { name: "Weekly", code: "week", format: "YYYY-wo" },
@@ -61,6 +52,10 @@ const savedType = (amount) => {
 
 const Compare = () => {
   const { httpCall } = useHttp();
+
+  // currency context
+  const currencyCtx = useContext(currencyContext);
+  const formatter = currencyCtx.formatter;
 
   const [searchPeriod, setSearchPeriod] = useState(periods[1].name);
   const [firstDate, setFirstDate] = useState(moment().subtract(1, "M"));
@@ -124,7 +119,7 @@ const Compare = () => {
         key: "date2",
       },
     ],
-    [firstDateString, secondDateString]
+    [firstDateString, formatter, secondDateString]
   );
 
   const fetchCompareData = useCallback(async () => {

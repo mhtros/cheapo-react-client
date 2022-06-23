@@ -25,25 +25,15 @@ import {
   Typography,
 } from "antd";
 import moment from "moment";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { apiUri } from "../appsettings";
-import { errorToast } from "../helpers/toasts";
+import currencyContext from "../context/currency-context";
 import { useHttp } from "../hooks/http-hook";
 
 const { Title } = Typography;
 const { Panel } = Collapse;
 const { Option } = Select;
 const { TextArea } = Input;
-
-const locale = "el-GR";
-
-var formatter = new Intl.NumberFormat(locale, {
-  style: "currency",
-  currency: "EUR",
-  // These options are needed to round to whole numbers if that's what you want.
-  // minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
-  // maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
-});
 
 const transactionCardStyle = {
   marginTop: "1rem",
@@ -57,38 +47,6 @@ const transactionButtonsLayoutStyle = {
   display: "flex",
   flexDirection: "row-reverse",
   gap: 10,
-};
-
-const currencyParser = (val) => {
-  try {
-    // for when the input gets clears
-    if (typeof val === "string" && !val.length) {
-      val = "0.0";
-    }
-
-    // detecting and parsing between comma and dot
-    var group = new Intl.NumberFormat(locale).format(1111).replace(/1/g, "");
-    var decimal = new Intl.NumberFormat(locale).format(1.1).replace(/1/g, "");
-    var reversedVal = val.replace(new RegExp("\\" + group, "g"), "");
-    reversedVal = reversedVal.replace(new RegExp("\\" + decimal, "g"), ".");
-    //  => 1232.21 €
-
-    // removing everything except the digits and dot
-    reversedVal = reversedVal.replace(/[^0-9.]/g, "");
-    //  => 1232.21
-
-    // appending digits properly
-    const digitsAfterDecimalCount = (reversedVal.split(".")[1] || []).length;
-    const needsDigitsAppended = digitsAfterDecimalCount > 2;
-
-    if (needsDigitsAppended) {
-      reversedVal = reversedVal * Math.pow(10, digitsAfterDecimalCount - 2);
-    }
-
-    return Number.isNaN(reversedVal) ? 0 : reversedVal;
-  } catch (error) {
-    errorToast(error);
-  }
 };
 
 const greaterThanZero = () => ({
@@ -107,6 +65,11 @@ const Dashboard = () => {
 
   const [date, setDate] = useState(moment());
   const [loading, setLoading] = useState(false);
+
+  // currency context
+  const currencyCtx = useContext(currencyContext);
+  const formatter = currencyCtx.formatter;
+  const currencyParser = currencyCtx.currencyParser;
 
   // balance
   const [balance, setBalance] = useState(0);

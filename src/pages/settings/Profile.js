@@ -1,21 +1,35 @@
 import { InboxOutlined } from "@ant-design/icons";
-import { Button, Card, Form, Popconfirm, Typography, Upload } from "antd";
+import {
+  Button,
+  Card,
+  Form,
+  Popconfirm,
+  Select,
+  Typography,
+  Upload,
+} from "antd";
 import ImgCrop from "antd-img-crop";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { apiUri } from "../../appsettings";
 import authenticationContext from "../../context/authentication-context";
+import currencyContext from "../../context/currency-context";
 import { errorToast, successToast } from "../../helpers/toasts";
 import { useHttp } from "../../hooks/http-hook";
+import { Currencies } from "../../maps/currencies";
+import { Locales } from "../../maps/locales";
 
 const { Dragger } = Upload;
+const { Option } = Select;
 const { Paragraph } = Typography;
 
 const Profile = () => {
   const { httpCall } = useHttp();
+
+  const currencyCtx = useContext(currencyContext);
   const authenticationCtx = useContext(authenticationContext);
 
-  const [loading, setLoading] = useState(false);
-  const [extraLoading, setExtraLoading] = useState(false);
+  const [profileLoading, setProfileLoading] = useState(false);
+  const [revokeLoading, setRevokeLoading] = useState(false);
 
   const [fileList, setFileList] = useState([]);
 
@@ -24,7 +38,7 @@ const Profile = () => {
       errorToast("Please select an image");
       return;
     }
-    setLoading(true);
+    setProfileLoading(true);
 
     try {
       const url = `${apiUri}/user/image`;
@@ -35,9 +49,9 @@ const Profile = () => {
       successToast("Profile image changed successfully");
       authenticationCtx.setImage(fileList[0].url);
       setFileList([]);
-      setLoading(false);
+      setProfileLoading(false);
     } catch (ex) {
-      setLoading(false);
+      setProfileLoading(false);
     }
   };
 
@@ -59,14 +73,14 @@ const Profile = () => {
 
   const revokeTokenHandler = async (event) => {
     event.preventDefault();
-    setExtraLoading(true);
+    setRevokeLoading(true);
     try {
       const url = `${apiUri}/authentication/revoke`;
       await httpCall(url, { method: "POST" });
       successToast("Token revoked successfully");
       authenticationCtx.signout();
     } catch (ex) {
-      setLoading(false);
+      setRevokeLoading(false);
     }
   };
 
@@ -76,6 +90,10 @@ const Profile = () => {
 
   const revokeTokenTitle = (
     <div style={{ textAlign: "center" }}>Revoke Token</div>
+  );
+
+  const currencyTitle = (
+    <div style={{ textAlign: "center" }}>Currency Format and Locale</div>
   );
 
   return (
@@ -105,15 +123,68 @@ const Profile = () => {
 
           <div style={{ display: "flex", flexDirection: "row-reverse" }}>
             <Button
-              loading={loading}
+              loading={profileLoading}
               type="primary"
               htmlType="submit"
-              disabled={extraLoading}
+              disabled={revokeLoading}
             >
               Update
             </Button>
           </div>
         </Form>
+      </Card>
+
+      <Card title={currencyTitle} style={{ marginTop: "1rem" }}>
+        <Paragraph>
+          Set your individual currency, and locale. These values will affect the
+          display format of all numeric values in the application.
+        </Paragraph>
+
+        <div>
+          <label for="locales" style={{ display: "block" }}>
+            Application Locale
+          </label>
+          <Select
+            id="locales"
+            style={{ width: "100%" }}
+            showSearch
+            value={currencyCtx.locale}
+            onChange={(value) => currencyCtx.setLocale(value)}
+            placeholder="Search locales..."
+            filterOption={(input, option) =>
+              option.children.toLowerCase().includes(input.toLowerCase())
+            }
+          >
+            {Locales?.map((locale) => (
+              <Option key={locale.code} value={locale.code}>
+                {`${locale.code} - ${locale.name} (${locale.nativeName})`}
+              </Option>
+            ))}
+          </Select>
+        </div>
+
+        <div style={{ marginTop: "1rem" }}>
+          <label for="currencies" style={{ display: "block" }}>
+            Application Currency
+          </label>
+          <Select
+            id="currencies"
+            style={{ width: "100%" }}
+            showSearch
+            value={currencyCtx.currency}
+            onChange={(value) => currencyCtx.setCurrency(value)}
+            placeholder="Search currencies..."
+            filterOption={(input, option) =>
+              option.children.toLowerCase().includes(input.toLowerCase())
+            }
+          >
+            {Currencies?.map((currency) => (
+              <Option key={currency.code} value={currency.code}>
+                {currency.code + "-" + currency.name}
+              </Option>
+            ))}
+          </Select>
+        </div>
       </Card>
 
       <Card title={revokeTokenTitle} style={{ marginTop: "1rem" }}>
@@ -133,8 +204,8 @@ const Profile = () => {
             style={{ width: "100%" }}
             size="large"
             danger
-            loading={extraLoading}
-            disabled={loading}
+            loading={revokeLoading}
+            disabled={profileLoading}
             type="primary"
           >
             Revoke token
