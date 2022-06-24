@@ -584,37 +584,39 @@ const Dashboard = () => {
   };
 
   return (
-    <Card>
-      <Card style={{ background: "var(--base-color-50)" }}>
-        <Title level={3} style={{ margin: 0 }}>
-          Balance{" "}
-          <span style={{ color: "var(--secondary-color-500)" }}>
-            {balanceLoading && <Spin />}
-            {!balanceLoading && formatter.format(balance)}
-          </span>
-        </Title>
-      </Card>
+    <>
+      <Card>
+        <Card style={{ background: "var(--base-color-50)" }}>
+          <Title level={3} style={{ margin: 0 }}>
+            Balance{" "}
+            <span style={{ color: "var(--secondary-color-500)" }}>
+              {balanceLoading && <Spin />}
+              {!balanceLoading && formatter.format(balance)}
+            </span>
+          </Title>
+        </Card>
 
-      <div style={{ display: "flex", marginTop: "1rem" }}>
-        <Tooltip placement="top" title="Previous">
-          <Button size="large" onClick={previousMonth} disabled={!date}>
-            <CaretLeftOutlined />
-          </Button>
-        </Tooltip>
-        <DatePicker
-          format="MMMM YYYY"
-          value={date}
-          style={{ flexGrow: "1", margin: "0 0.5rem" }}
-          size="large"
-          superNextIcon
-          onChange={onDateChange}
-        />
-        <Tooltip placement="top" title="Next">
-          <Button size="large" onClick={nextMonth} disabled={!date}>
-            <CaretRightOutlined />
-          </Button>
-        </Tooltip>
-      </div>
+        <div style={{ display: "flex", marginTop: "1rem" }}>
+          <Tooltip placement="top" title="Previous">
+            <Button size="large" onClick={previousMonth} disabled={!date}>
+              <CaretLeftOutlined />
+            </Button>
+          </Tooltip>
+          <DatePicker
+            format="MMMM YYYY"
+            value={date}
+            style={{ flexGrow: "1", margin: "0 0.5rem" }}
+            size="large"
+            superNextIcon
+            onChange={onDateChange}
+          />
+          <Tooltip placement="top" title="Next">
+            <Button size="large" onClick={nextMonth} disabled={!date}>
+              <CaretRightOutlined />
+            </Button>
+          </Tooltip>
+        </div>
+      </Card>
 
       <Collapse style={{ marginTop: "2rem" }} defaultActiveKey={["1"]}>
         <Panel header={incomesHeader} activeKey={["1"]} key="1">
@@ -829,7 +831,7 @@ const Dashboard = () => {
           </Modal>
         </Panel>
       </Collapse>
-    </Card>
+    </>
   );
 };
 

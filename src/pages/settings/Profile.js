@@ -141,7 +141,7 @@ const Profile = () => {
         </Paragraph>
 
         <div>
-          <label for="locales" style={{ display: "block" }}>
+          <label htmlFor="locales" style={{ display: "block" }}>
             Application Locale
           </label>
           <Select
@@ -164,7 +164,7 @@ const Profile = () => {
         </div>
 
         <div style={{ marginTop: "1rem" }}>
-          <label for="currencies" style={{ display: "block" }}>
+          <label htmlFor="currencies" style={{ display: "block" }}>
             Application Currency
           </label>
           <Select
