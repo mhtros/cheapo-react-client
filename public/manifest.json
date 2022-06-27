@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Cheapo",
+  "name": "Cheapo - A simple way to  keep track your monthly expenses",
   "icons": [
     {
       "src": "favicon.ico",
