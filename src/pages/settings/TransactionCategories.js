@@ -28,6 +28,10 @@ const TransactionCategories = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    document.title = "Cheapo - Transaction Categories";
+  }, []);
+
+  useEffect(() => {
     getTransactionCategories();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [namefilter]);

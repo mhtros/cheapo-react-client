@@ -45,6 +45,10 @@ const TwoFactorAuthenitcation = () => {
   const [twoFactorToken, setTwoFactorToken] = useState("");
 
   useEffect(() => {
+    document.title = "Cheapo - Two Factor Authentication";
+  }, []);
+
+  useEffect(() => {
     if (!user.twoFactorEnabled) generateTwoFactorKey();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user.twoFactorEnabled]);

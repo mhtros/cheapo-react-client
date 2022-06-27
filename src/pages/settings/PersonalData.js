@@ -1,5 +1,5 @@
 import { Alert, Button, Card, Input, Popconfirm, Typography } from "antd";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { apiUri } from "../../appsettings";
 import authenticationContext from "../../context/authentication-context";
 import { successToast } from "../../helpers/toasts";
@@ -26,6 +26,10 @@ const PersonalData = () => {
   const [deletionToken, setDeletionToken] = useState("");
   const [deleteLoading, setDeleLoading] = useState(false);
   const [popConfigVisibility, setPopConfigVisibility] = useState(false);
+
+  useEffect(() => {
+    document.title = "Cheapo - Personal Data";
+  }, []);
 
   const downloadPersonalData = async () => {
     setDownloading(true);

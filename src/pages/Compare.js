@@ -169,6 +169,10 @@ const Compare = () => {
   }, [firstDate, searchPeriod, secondDate]);
 
   useEffect(() => {
+    document.title = "Cheapo - Compare";
+  }, []);
+
+  useEffect(() => {
     fetchCompareData();
   }, [fetchCompareData]);
 

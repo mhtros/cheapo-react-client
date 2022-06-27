@@ -96,6 +96,7 @@ const Dashboard = () => {
   const [expensesModalVisibility, setExpensesModalVisibility] = useState(false);
 
   useEffect(() => {
+    document.title = "Cheapo - Dashboard";
     getBalance();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

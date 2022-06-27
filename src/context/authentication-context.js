@@ -90,6 +90,7 @@ export const AuthenticationContextProvider = (props) => {
     setRefreshTkn("");
     setIsLogged(false);
     setUsr({});
+    document.title = "Cheapo";
     history.replace("/");
   };
 

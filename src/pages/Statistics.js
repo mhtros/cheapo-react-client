@@ -293,6 +293,10 @@ const Statistics = () => {
   }, [dates]);
 
   useEffect(() => {
+    document.title = "Cheapo - Statistics";
+  }, []);
+
+  useEffect(() => {
     fetchTransaction();
   }, [fetchTransaction]);
 

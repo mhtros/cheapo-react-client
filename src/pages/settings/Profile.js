@@ -9,7 +9,7 @@ import {
   Upload,
 } from "antd";
 import ImgCrop from "antd-img-crop";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { apiUri } from "../../appsettings";
 import authenticationContext from "../../context/authentication-context";
 import currencyContext from "../../context/currency-context";
@@ -32,6 +32,10 @@ const Profile = () => {
   const [revokeLoading, setRevokeLoading] = useState(false);
 
   const [fileList, setFileList] = useState([]);
+
+  useEffect(() => {
+    document.title = "Cheapo - Profile";
+  }, []);
 
   const updateImageHandler = async () => {
     if (fileList?.length === 0) {

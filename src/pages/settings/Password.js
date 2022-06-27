@@ -1,5 +1,5 @@
 import { Button, Card, Form, Input } from "antd";
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { apiUri } from "../../appsettings";
 import { errorToast, successToast } from "../../helpers/toasts";
 import { useHttp } from "../../hooks/http-hook";
@@ -8,6 +8,10 @@ const Password = () => {
   const { httpCall } = useHttp();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    document.title = "Cheapo - Change Password";
+  }, []);
 
   const changePasswordHandler = async (values) => {
     if (values.newPassword !== values.repeatNewPassword) {
