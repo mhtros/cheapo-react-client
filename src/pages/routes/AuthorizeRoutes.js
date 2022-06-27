@@ -8,6 +8,7 @@ import PersonalData from "../settings/PersonalData";
 import Profile from "../settings/Profile";
 import TransactionCategories from "../settings/TransactionCategories";
 import TwoFactorAuthentication from "../settings/TwoFactorAuthentication";
+import Statistics from "../Statistics";
 
 const AuthorizeRoutes = () => {
   useExpiredSession();
@@ -15,6 +16,7 @@ const AuthorizeRoutes = () => {
     <Routes>
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/compare" element={<Compare />} />
+      <Route path="/statistics" element={<Statistics />} />
       <Route path="/settings/profile" element={<Profile />} />
       <Route path="/settings/password" element={<Password />} />
       <Route

@@ -50,6 +50,8 @@ const savedType = (amount) => {
   return "secondary";
 };
 
+const title = <div style={{ textAlign: "center" }}>Compare</div>;
+
 const Compare = () => {
   const { httpCall } = useHttp();
 
@@ -171,7 +173,7 @@ const Compare = () => {
   }, [fetchCompareData]);
 
   return (
-    <Card>
+    <Card title={title}>
       <Segmented
         style={{ width: "100%" }}
         onChange={(period) => setSearchPeriod(period)}

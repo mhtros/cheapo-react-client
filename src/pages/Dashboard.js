@@ -226,7 +226,7 @@ const Dashboard = () => {
   const getTransactions = async () => {
     if (!date) return;
     const isoDate = date.toISOString();
-    const pagination = `pageNumber=${1}&pageSize=${50}`;
+    const pagination = `pageNumber=${1}&pageSize=${500}`;
     const dateRanges = `createdFrom=${isoDate}&createdTo=${isoDate}&ignoreDays=true`;
     const url = `${apiUri}/transactions?${pagination}&${dateRanges}`;
     setLoading(true);
@@ -250,7 +250,7 @@ const Dashboard = () => {
   };
 
   const getCategories = async (filter = "") => {
-    let url = `${apiUri}/transaction-categories?pageNumber=${1}&pageSize=${50}`;
+    let url = `${apiUri}/transaction-categories?pageNumber=${1}&pageSize=${500}`;
     if (filter !== "") url += `&name=${filter}`;
     setCategoriesLoading(true);
     try {
