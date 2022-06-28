@@ -1,1 +1,1 @@
-export const apiUri = "https://localhost:7080/api/v1";
+export const apiUri = "https://chepo-tracker.herokuapp.com/api/v1";
